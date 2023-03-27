@@ -1,5 +1,6 @@
 package manager;
 
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -17,20 +18,19 @@ public class HelperBase {
         WebElement element = wd.findElement(locator);
         element.click();
         element.clear();
-        if (text!=null){
+        if(text!= null){
+
             element.sendKeys(text);
         }
     }
 
-    public void click (By locator){
+    public void click(By locator){
         WebElement element = wd.findElement(locator);
         element.click();
     }
 
     public boolean isElementPresent(By locator){
-        List<WebElement> list = wd.findElements(locator);
+        List<WebElement> list =wd.findElements(locator);
         return list.size()>0;
-
-
     }
 }

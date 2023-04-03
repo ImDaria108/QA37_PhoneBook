@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 
 import static tests.TestBase.app;
 
-public class AddNewContactTests {
+public class AddNewContactTests extends TestBase {
 
 
     @BeforeClass

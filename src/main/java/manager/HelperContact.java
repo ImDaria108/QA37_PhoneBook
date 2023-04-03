@@ -12,6 +12,7 @@ public class HelperContact extends HelperBase {
     }
 
     public void openAddContactform(){
+        pause(1000);
         click(By.cssSelector("a[href='/add']"));
     }
 
@@ -26,7 +27,7 @@ public class HelperContact extends HelperBase {
     }
 
     public void returntoHome() {
-        click(By.cssSelector("a[href='/home']"));
+        click(By.cssSelector("a[href='/contacts']"));
     }
 
 }

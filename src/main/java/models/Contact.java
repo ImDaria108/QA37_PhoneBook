@@ -14,7 +14,7 @@ public class Contact {
 
     private String name;
     private String lastname;
-    private double phone;
+    private String phone;
     private String email;
     private String address;
     private String description;

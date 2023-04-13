@@ -1,18 +1,15 @@
 package models;
 
 public class User {
-
-
     private String email;
     private String password;
 
-
-    public User setEmail(String email) {
+    public User withEmail(String email) {
         this.email = email;
         return this;
     }
 
-    public User setPassword(String password) {
+    public User withPassword(String password) {
         this.password = password;
         return this;
     }
@@ -28,7 +25,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                ", email='" + email + '\'' +
+                "email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }

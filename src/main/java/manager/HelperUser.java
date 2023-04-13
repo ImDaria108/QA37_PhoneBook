@@ -21,46 +21,62 @@ public class HelperUser extends HelperBase{
 
     public void fillLoginRegistrationForm(String email,String password){
         type(By.name("email"),email);
-
         type(By.xpath("//input[last()]"),password);
+
     }
 
-    public void submit(){
+    public void fillLoginRegistrationForm(User user){
+        type(By.name("email"), user.getEmail());
+        type(By.xpath("//input[last()]"), user.getPassword());
+    }
+
+
+    public void submitLogin(){
         click(By.xpath("//button[text()='Login']"));
     }
 
-
     public boolean isLogged() {
         return isElementPresent(By.xpath("//button[text()='Sign Out']"));
+        // return false;
     }
 
     public void logout(){
         click(By.xpath("//button[text()='Sign Out']"));
     }
 
-    public boolean isAlertPresent(String message) {
-        WebDriverWait wait = new WebDriverWait(wd, Duration.ofSeconds(10));
+    public boolean isAlertPresent2(String message) {
+        WebDriverWait wait = new WebDriverWait(wd, Duration.ofSeconds(5));
 
         Alert alert = wait.until(ExpectedConditions.alertIsPresent());
-        if(alert != null && alert.getText().equals(message)){
-            System.out.println(alert.getText());
-
+        System.out.println(alert.getText());
+        if(alert != null && alert.getText().contains(message)){
             alert.accept();
-
             return true;
         }
         return false;
     }
-
     public void submitRegistration() {
-        click(By.name("registration"));
+        click(By.xpath("//button[text()='Registration']"));
+    }
+
+    public boolean isNoContactsHereDisplayed() {
+        WebDriverWait wait = new WebDriverWait(wd,Duration.ofSeconds(5));
+        boolean res =wait.until(ExpectedConditions.textToBePresentInElement(wd.findElement(By.cssSelector(".contact-page_message__2qafk>h1")),"No Contacts here!"));
+        return res;
+    }
+
+
+    public String getMessage(){
+
+        WebDriverWait wait = new WebDriverWait(wd, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.visibilityOf(wd.findElement(By.cssSelector(".contact-page_message__2qafk>h1"))));
+
+        return wd.findElement(By.cssSelector(".contact-page_message__2qafk>h1")).getText();
     }
 
     public void login(User user) {
         openLoginRegistrationForm();
-        fillLoginRegistrationForm(user.getEmail(), user.getPassword());
-        submit();
-
+        fillLoginRegistrationForm(user);
+        submitLogin();
     }
-
 }

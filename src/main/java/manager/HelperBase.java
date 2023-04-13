@@ -1,10 +1,14 @@
 package manager;
 
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 
 public class HelperBase {
@@ -19,7 +23,6 @@ public class HelperBase {
         element.click();
         element.clear();
         if(text!= null){
-
             element.sendKeys(text);
         }
     }
@@ -29,18 +32,24 @@ public class HelperBase {
         element.click();
     }
 
-    public void pause(int time)  {
-
-        try {
-            Thread.sleep(time);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
 
     public boolean isElementPresent(By locator){
         List<WebElement> list =wd.findElements(locator);
         return list.size()>0;
+    }
+
+    public boolean isAlertPresent(String message) {
+        WebDriverWait wait = new WebDriverWait(wd, Duration.ofSeconds(5));
+
+        Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+        System.out.println(alert.getText());
+        if(alert != null && alert.getText().equals(message)){
+
+            alert.accept();
+
+
+            return true;
+        }
+        return false;
     }
 }

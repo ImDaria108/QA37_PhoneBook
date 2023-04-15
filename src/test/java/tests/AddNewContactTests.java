@@ -2,13 +2,10 @@ package tests;
 
 import models.Contact;
 import models.User;
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
 import java.util.Random;
 
 public class AddNewContactTests extends TestBase {
@@ -36,7 +33,6 @@ public class AddNewContactTests extends TestBase {
         app.helperContact().saveContact();
         Assert.assertTrue(app.helperContact().isContactAddedByName(contact.getName()));
         Assert.assertTrue(app.helperContact().isContactAddedByPhone(contact.getPhone()));
-
     }
 
     @Test
@@ -59,7 +55,7 @@ public class AddNewContactTests extends TestBase {
     @Test
     public void addNewContactWrongName() {
         Contact contact = Contact.builder()
-                .name("")
+                .name(" ")
                 .lastname("Wotson")
                 .address("Chicago")
                 .phone("2390561783")
@@ -69,7 +65,6 @@ public class AddNewContactTests extends TestBase {
         app.helperContact().fillContactForm(contact);
         app.helperContact().saveContact();
         Assert.assertTrue(app.helperContact().isAddPageStillDisplayed());
-
     }
 
     @Test
@@ -86,11 +81,11 @@ public class AddNewContactTests extends TestBase {
         app.helperContact().fillContactForm(contact);
         app.helperContact().saveContact();
         Assert.assertTrue(app.helperContact().isAddPageStillDisplayed());
-
     }
 
     @Test
     public void addNewContactWrongLastName() {
+        int i = new Random().nextInt(1000) + 1000;
         Contact contact = Contact.builder()
                 .name("MaryJane")
                 .lastname("")
@@ -101,6 +96,7 @@ public class AddNewContactTests extends TestBase {
                 .build();
         app.helperContact().openContactForm();
         app.helperContact().fillContactForm(contact);
+        app.helperContact().getScreen("src/test/screenshots/screen-"+i+".png");
         app.helperContact().saveContact();
         Assert.assertTrue(app.helperContact().isAddPageStillDisplayed());
     }
@@ -120,8 +116,6 @@ public class AddNewContactTests extends TestBase {
         app.helperContact().saveContact();
         Assert.assertTrue(app.helperContact().isAddPageStillDisplayed());
         Assert.assertTrue(app.getHelperUser().isAlertPresent(" Phone not valid: Phone number must contain only digits! And length min 10, max 15!"));
-
-
     }
 
     @Test
@@ -139,6 +133,5 @@ public class AddNewContactTests extends TestBase {
         app.helperContact().saveContact();
         Assert.assertTrue(app.helperContact().isAddPageStillDisplayed());
         Assert.assertTrue(app.getHelperUser().isAlertPresent("Email not valid: must be a well-formed email address"));
-
     }
 }

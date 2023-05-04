@@ -12,7 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class LoginTests extends TestBase {
-
+//jenkins
     @BeforeMethod(alwaysRun = true)
     public void preCondition() {
 

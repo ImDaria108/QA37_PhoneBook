@@ -9,7 +9,7 @@ import java.util.Random;
 
 public class RegistrationTests extends TestBase{
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void preCondition() {
 
         if (app.getHelperUser().isLogged()) {
@@ -22,6 +22,7 @@ public class RegistrationTests extends TestBase{
         Random random = new Random();
         int i = random.nextInt(1000)+1000;
         User user = new User().withEmail("don"+i+"@gmail.com").withPassword("Don12345$");
+        logger.info("Test run with data: --->"+user.toString());
         app.getHelperUser().openLoginRegistrationForm();
         app.getHelperUser().fillLoginRegistrationForm(user);
         app.getHelperUser().submitRegistration();
@@ -33,10 +34,11 @@ public class RegistrationTests extends TestBase{
 
     }
 
-    @Test(description = "Bug  report N23467 Fixed")
+    @Test(description = "Bug  report N23467 Fixed",groups = {"smoke"})
     public void registrationWrongEmail(){
 
         User user = new User().withEmail("dongmail.com").withPassword("Don12345$");
+        logger.info("Test run with data: --->"+user.toString());
         app.getHelperUser().openLoginRegistrationForm();
         app.getHelperUser().fillLoginRegistrationForm(user);
         app.getHelperUser().submitRegistration();
@@ -51,6 +53,7 @@ public class RegistrationTests extends TestBase{
     public void registrationWrongPassword(){
 
         User user = new User().withEmail("don@gmail.com").withPassword("Don12");
+        logger.info("Test run with data: --->"+user.toString());
         app.getHelperUser().openLoginRegistrationForm();
         app.getHelperUser().fillLoginRegistrationForm(user);
         app.getHelperUser().submitRegistration();
@@ -65,6 +68,7 @@ public class RegistrationTests extends TestBase{
     public void registrationNeValidPasswordExistUser(){
 
         User user = new User().withEmail("don@gmail.com").withPassword("Don12");
+        logger.info("Test run with data: --->"+user.toString());
         app.getHelperUser().openLoginRegistrationForm();
         app.getHelperUser().fillLoginRegistrationForm(user);
         app.getHelperUser().submitRegistration();
@@ -80,6 +84,7 @@ public class RegistrationTests extends TestBase{
     public void registrationExistsUser(){
 
         User user = new User().withEmail("dasha@gmail.com").withPassword("Ashtanga8!");
+        logger.info("Test run with data: --->"+user.toString());
         app.getHelperUser().openLoginRegistrationForm();
         app.getHelperUser().fillLoginRegistrationForm(user);
         app.getHelperUser().submitRegistration();

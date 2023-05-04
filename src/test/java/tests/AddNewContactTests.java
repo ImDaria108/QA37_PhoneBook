@@ -1,5 +1,6 @@
 package tests;
 
+import manager.DataProviderContact;
 import models.Contact;
 import models.User;
 import org.testng.Assert;
@@ -10,24 +11,17 @@ import java.util.Random;
 
 public class AddNewContactTests extends TestBase {
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void preCondition() {
         if (!app.getHelperUser().isLogged()) {
             app.getHelperUser().login(new User().withEmail("dasha@gmail.com").withPassword("Ashtanga8!"));
         }
     }
 
-    @Test
-    public void addContactSuccessAllFields() {
-        int i= new Random().nextInt(1000)+1000;
-        Contact contact = Contact.builder()
-                .name("Harry")
-                .lastname("Potter")
-                .phone("66677788"+i)
-                .email("hp"+i+"@mail.com")
-                .address("Hogsmid")
-                .description("School")
-                .build();
+    @Test (dataProvider = "contactSuccess", dataProviderClass = DataProviderContact.class)
+    public void addContactSuccessAllFields(Contact contact) {
+
+        logger.info("Test run with data: --->"+contact.toString());
         app.helperContact().openContactForm();
         app.helperContact().fillContactForm(contact);
         app.helperContact().saveContact();
@@ -35,7 +29,18 @@ public class AddNewContactTests extends TestBase {
         Assert.assertTrue(app.helperContact().isContactAddedByPhone(contact.getPhone()));
     }
 
-    @Test
+    @Test (dataProvider = "contactCSV", dataProviderClass = DataProviderContact.class)
+    public void addContactSuccessAllFieldsCSV(Contact contact) {
+
+        logger.info("Test run with data: --->"+contact.toString());
+        app.helperContact().openContactForm();
+        app.helperContact().fillContactForm(contact);
+        app.helperContact().saveContact();
+        Assert.assertTrue(app.helperContact().isContactAddedByName(contact.getName()));
+        Assert.assertTrue(app.helperContact().isContactAddedByPhone(contact.getPhone()));
+    }
+
+    @Test(groups = {"smoke","regress"})
     public void addContactSuccessRequiredFields() {
         int i = new Random().nextInt(1000) + 1000;
         Contact contact = Contact.builder()
@@ -45,6 +50,7 @@ public class AddNewContactTests extends TestBase {
                 .phone("2390561" + i)
                 .email("MJ" + i + "@gmail.com")
                 .build();
+        logger.info("Test run with data: --->"+contact.toString());
         app.helperContact().openContactForm();
         app.helperContact().fillContactForm(contact);
         app.helperContact().saveContact();
@@ -61,6 +67,7 @@ public class AddNewContactTests extends TestBase {
                 .phone("2390561783")
                 .email("MJ@gmail.com")
                 .build();
+        logger.info("Test run with data: --->"+contact.toString());
         app.helperContact().openContactForm();
         app.helperContact().fillContactForm(contact);
         app.helperContact().saveContact();
@@ -77,6 +84,7 @@ public class AddNewContactTests extends TestBase {
                 .email("MJ@gmail.com")
                 .description("Cool girl")
                 .build();
+        logger.info("Test run with data: --->"+contact.toString());
         app.helperContact().openContactForm();
         app.helperContact().fillContactForm(contact);
         app.helperContact().saveContact();
@@ -94,6 +102,7 @@ public class AddNewContactTests extends TestBase {
                 .email("MJ@gmail.com")
                 .description("Cool girl")
                 .build();
+        logger.info("Test run with data: --->"+contact.toString());
         app.helperContact().openContactForm();
         app.helperContact().fillContactForm(contact);
         app.helperContact().getScreen("src/test/screenshots/screen-"+i+".png");
@@ -101,16 +110,9 @@ public class AddNewContactTests extends TestBase {
         Assert.assertTrue(app.helperContact().isAddPageStillDisplayed());
     }
 
-    @Test
-    public void addNewContactWrongPhone() {
-        Contact contact = Contact.builder()
-                .name("MaryJane")
-                .lastname("Wotson")
-                .address("Chicago")
-                .phone("")
-                .email("MJ@gmail.com")
-                .description("Cool girl")
-                .build();
+    @Test(dataProvider =  "contactWrongPhone",dataProviderClass = DataProviderContact.class)
+    public void addNewContactWrongPhone(Contact contact) {
+        logger.info("Test run with data: --->"+contact.toString());
         app.helperContact().openContactForm();
         app.helperContact().fillContactForm(contact);
         app.helperContact().saveContact();
@@ -128,6 +130,7 @@ public class AddNewContactTests extends TestBase {
                 .email("MJgmail.com")
                 .description("Cool girl")
                 .build();
+        logger.info("Test run with data: --->"+contact.toString());
         app.helperContact().openContactForm();
         app.helperContact().fillContactForm(contact);
         app.helperContact().saveContact();
